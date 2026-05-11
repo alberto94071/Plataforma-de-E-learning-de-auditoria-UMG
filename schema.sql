@@ -36,6 +36,6 @@ INSERT INTO users (name, email, password_hash, role)
 VALUES (
   'Administrador',
   'admin@auditoria.edu.gt',
-  '$2b$10$rOzJqzJqzJqzJqzJqzJqzOJqzJqzJqzJqzJqzJqzJqzJqzJqzJqz',
+  '$2a$12$ngoAoHESXQr24rQ5OgvpHeMBuLza5GCrpG2mJf2xJAU/LT1Y17P0.',
   'admin'
 ) ON CONFLICT DO NOTHING;

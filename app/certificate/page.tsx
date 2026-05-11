@@ -35,7 +35,7 @@ export default function CertificatePage() {
   }, [status, router]);
 
   const now = new Date();
-  const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
   const dateStr = `Guatemala, ${now.getDate()} de ${MESES[now.getMonth()]} de ${now.getFullYear()}`;
 
   async function downloadDiploma(type: "pdf" | "png") {
@@ -47,7 +47,7 @@ export default function CertificatePage() {
       const html2canvas = (await import("html2canvas")).default;
       const canvas = await html2canvas(certRef.current, {
         scale: 3,
-        backgroundColor: "#0f1a0f",
+        backgroundColor: "#ffffff",
         useCORS: true,
         logging: false,
       });
@@ -61,9 +61,25 @@ export default function CertificatePage() {
         const jsPDF = (await import("jspdf")).default;
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
-        const W = pdf.internal.pageSize.getWidth();
-        const H = pdf.internal.pageSize.getHeight();
-        pdf.addImage(imgData, "PNG", 0, 0, W, H);
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+
+        // Calcular dimensiones manteniendo proporción
+        const canvasRatio = canvas.height / canvas.width;
+        let finalW = pdfWidth;
+        let finalH = pdfWidth * canvasRatio;
+
+        // Si la altura calculada se pasa de la hoja, ajustamos por altura
+        if (finalH > pdfHeight) {
+          finalH = pdfHeight;
+          finalW = pdfHeight / canvasRatio;
+        }
+
+        const x = (pdfWidth - finalW) / 2;
+        const y = (pdfHeight - finalH) / 2;
+
+        pdf.addImage(imgData, "PNG", x, y, finalW, finalH);
         pdf.save(`diploma-auditoria-${session?.user?.name?.replace(/\s/g, "_")}.pdf`);
       }
     } catch (err) {
@@ -132,7 +148,6 @@ export default function CertificatePage() {
 
           {/* Logo + Institution */}
           <div className="diploma-institution">
-            <div className="institution-seal">⚖️</div>
             <div className="institution-name">Universidad Mariano Gálvez de Guatemala</div>
             <div className="institution-faculty">Facultad de Ciencias Económicas · Carrera de Auditoría</div>
           </div>
@@ -194,10 +209,12 @@ export default function CertificatePage() {
               <div className="sig-name">Coordinador Académico</div>
               <div className="sig-inst">Facultad de Ciencias Económicas</div>
             </div>
-            <div className="diploma-seal">
-              <div className="seal-ring">
-                <span className="seal-star">★</span>
-              </div>
+            <div className="diploma-footer-seal">
+              <img 
+                src="/logo-umg.png" 
+                alt="Sello UMG" 
+                className="footer-seal-img"
+              />
             </div>
             <div className="sig-block">
               <div className="sig-line" />
@@ -253,21 +270,23 @@ export default function CertificatePage() {
         .diploma {
           width: 900px;
           min-height: 620px;
-          background: linear-gradient(135deg, #0a1a0a 0%, #0f2010 40%, #0a1a0a 100%);
-          border: 2px solid #8a7a30;
+          background: #fdfcf0; /* Light parchment color */
+          border: 12px double #8a7a30;
           border-radius: 4px;
           padding: 48px 60px;
           position: relative;
           text-align: center;
-          box-shadow: 0 0 80px rgba(180,150,40,0.15), inset 0 0 100px rgba(0,0,0,0.5);
+          box-shadow: 0 0 30px rgba(0,0,0,0.1);
           overflow: hidden;
+          color: #1a2a1a;
         }
 
         /* Subtle texture overlay */
         .diploma::after {
           content: '';
           position: absolute; inset: 0;
-          background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.3) 100%);
+          background: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+          opacity: 0.4;
           pointer-events: none;
         }
 
@@ -276,74 +295,73 @@ export default function CertificatePage() {
           position: absolute; width: 60px; height: 60px;
           border-color: #8a7a30; border-style: solid;
         }
-        .corner.tl { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
-        .corner.tr { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
-        .corner.bl { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
-        .corner.br { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+        .corner.tl { top: 12px; left: 12px; border-width: 3px 0 0 3px; }
+        .corner.tr { top: 12px; right: 12px; border-width: 3px 3px 0 0; }
+        .corner.bl { bottom: 12px; left: 12px; border-width: 0 0 3px 3px; }
+        .corner.br { bottom: 12px; right: 12px; border-width: 0 3px 3px 0; }
 
         /* Ornament line */
         .diploma-top-ornament { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
         .ornament-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #8a7a30, transparent); }
-        .ornament-diamond { color: #c9a830; font-size: 12px; }
+        .ornament-diamond { color: #8a7a30; font-size: 12px; }
 
         /* Institution */
         .diploma-institution { margin-bottom: 20px; }
-        .institution-seal { font-size: 48px; margin-bottom: 10px; filter: drop-shadow(0 0 12px rgba(201,168,48,0.5)); }
-        .institution-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #c9a830; letter-spacing: 1px; margin-bottom: 4px; }
-        .institution-faculty { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: #8a7a50; letter-spacing: 1.5px; text-transform: uppercase; }
+        .diploma-seal-img { width: 75px; height: 75px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .institution-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #1a365d; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .institution-faculty { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: #4a5568; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
 
         /* Deco line */
         .deco-line { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
-        .deco-star { color: #c9a830; font-size: 10px; }
-        .deco-span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,48,0.4), transparent); }
+        .deco-star { color: #8a7a30; font-size: 10px; }
+        .deco-span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(138, 122, 48, 0.4), transparent); }
 
         /* Main title */
-        .diploma-otorga { font-family: 'Cormorant Garamond', serif; font-size: 12px; text-transform: uppercase; letter-spacing: 4px; color: #8a7a50; margin-bottom: 6px; }
-        .diploma-main-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: #e8d898; margin-bottom: 14px; text-shadow: 0 0 30px rgba(201,168,48,0.2); }
+        .diploma-otorga { font-family: 'Cormorant Garamond', serif; font-size: 13px; text-transform: uppercase; letter-spacing: 4px; color: #718096; margin-bottom: 6px; font-weight: 600; }
+        .diploma-main-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900; color: #2c5282; margin-bottom: 14px; }
 
-        .diploma-curso-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: #8a7a50; margin-bottom: 4px; }
-        .diploma-curso-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #c9a830; margin-bottom: 16px; }
+        .diploma-curso-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: #4a5568; margin-bottom: 4px; }
+        .diploma-curso-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #8a7a30; margin-bottom: 16px; }
 
-        .diploma-a { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: #8a7a50; margin-bottom: 6px; }
+        .diploma-a { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: #4a5568; margin-bottom: 6px; }
 
         .diploma-name {
           font-family: 'Playfair Display', serif;
-          font-size: 34px; font-weight: 900;
-          color: #f0e8c0;
+          font-size: 38px; font-weight: 900;
+          color: #1a2a1a;
           margin-bottom: 16px;
-          letter-spacing: 2px;
-          text-shadow: 0 0 20px rgba(201,168,48,0.3);
+          letter-spacing: 1px;
+          border-bottom: 2px solid #8a7a30;
+          display: inline-block;
+          padding: 0 20px 5px;
         }
 
-        .diploma-desc { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: #7a7060; line-height: 1.7; max-width: 680px; margin: 0 auto 24px; }
+        .diploma-desc { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #4a5568; line-height: 1.6; max-width: 720px; margin: 0 auto 24px; font-weight: 500; }
 
         /* Score boxes */
         .diploma-score-row { display: flex; justify-content: center; gap: 24px; margin: 20px 0; }
-        .score-box { background: rgba(201,168,48,0.08); border: 1px solid rgba(201,168,48,0.25); border-radius: 8px; padding: 12px 24px; min-width: 120px; }
-        .score-box-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #7a7060; margin-bottom: 4px; }
-        .score-box-value { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #c9a830; }
-        .score-box-value.approved { color: #56c47e; font-size: 16px; }
+        .score-box { background: rgba(138, 122, 48, 0.05); border: 1px solid rgba(138, 122, 48, 0.2); border-radius: 8px; padding: 12px 24px; min-width: 130px; }
+        .score-box-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #718096; margin-bottom: 4px; font-weight: 700; }
+        .score-box-value { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: #2d3748; }
+        .score-box-value.approved { color: #2f855a; font-size: 18px; }
 
         /* Footer */
-        .diploma-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 28px; }
-        .sig-block { text-align: center; min-width: 200px; }
-        .sig-line { width: 100%; height: 1px; background: rgba(201,168,48,0.4); margin-bottom: 8px; }
-        .sig-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: #c9a830; margin-bottom: 2px; }
-        .sig-inst { font-size: 11px; color: #5a5040; font-style: italic; }
+        .diploma-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 32px; }
+        .sig-block { text-align: center; min-width: 220px; }
+        .sig-line { width: 100%; height: 1.5px; background: #2d3748; margin-bottom: 8px; }
+        .sig-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: #1a365d; margin-bottom: 2px; }
+        .sig-inst { font-size: 11px; color: #4a5568; font-style: italic; font-weight: 600; }
 
-        .diploma-seal {
-          width: 80px; height: 80px;
-          border: 2px solid rgba(201,168,48,0.4);
-          border-radius: 50%;
+        .diploma-footer-seal {
+          width: 100px; height: 100px;
           display: flex; align-items: center; justify-content: center;
+          margin-bottom: -10px;
         }
-        .seal-ring {
-          width: 60px; height: 60px;
-          border: 1px solid rgba(201,168,48,0.3);
-          border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
+        .footer-seal-img {
+          width: 85px; height: 85px;
+          object-fit: contain;
+          filter: grayscale(0.2) contrast(1.1);
         }
-        .seal-star { color: #c9a830; font-size: 24px; }
 
         @media (max-width: 960px) {
           .diploma { width: 100%; min-height: auto; padding: 32px 28px; }

@@ -36,7 +36,10 @@ export default function DashboardPage() {
 
   if (status === "loading" || loading) return <LoadingScreen />;
 
-  const completedSlugs = completions.map((c) => c.slug);
+  // Solo cuentan como completados los que tienen 20 o más puntos
+  const passingCompletions = completions.filter((c) => c.score >= 20);
+  const completedSlugs = passingCompletions.map((c) => c.slug);
+  
   const pct = Math.round((totalScore / MAX_TOTAL_SCORE) * 100);
   const diplomaPct = Math.round((totalScore / DIPLOMA_THRESHOLD) * 100);
 
@@ -47,7 +50,11 @@ export default function DashboardPage() {
       {/* NAV */}
       <nav className="dash-nav">
         <div className="nav-brand">
-          <span className="nav-icon">⚖️</span>
+          <img 
+            src="/logo-umg.png" 
+            alt="UMG Logo" 
+            className="nav-logo-img"
+          />
           <div>
             <div className="nav-title">AuditPro</div>
             <div className="nav-sub">Universidad Mariano Gálvez</div>
@@ -117,37 +124,53 @@ export default function DashboardPage() {
             <p className="section-sub">Completa la teoría y aprueba la evaluación de cada módulo</p>
           </div>
 
-          <div className="modules-grid">
-            {MODULES.map((mod, i) => {
-              const done = completedSlugs.includes(mod.slug);
-              const comp = completions.find((c) => c.slug === mod.slug);
-              return (
-                <div
-                  key={mod.slug}
-                  className={`module-card ${done ? "done" : ""}`}
-                  style={{ "--accent": mod.color, animationDelay: `${i * 60}ms` } as React.CSSProperties}
-                >
-                  {done && <div className="done-badge">✓ Completado</div>}
-                  <div className="mod-icon">{mod.icon}</div>
-                  <div className="mod-number">Módulo {i + 1}</div>
-                  <h3 className="mod-title">{mod.title}</h3>
-                  <p className="mod-desc">{mod.description}</p>
+          <div className="roadmap-container">
+            <div className="roadmap-line" />
+            <div className="modules-grid roadmap-grid">
+              {MODULES.map((mod, i) => {
+                const comp = completions.find((c) => c.slug === mod.slug);
+                const score = comp ? comp.score : null;
+                
+                const isPassed = score !== null && score >= 20;
+                const isPerfect = score === 30;
+                const isFailed = score !== null && score < 20;
+                
+                let statusClass = "";
+                if (isPerfect) statusClass = "status-green";
+                else if (isPassed) statusClass = "status-yellow";
+                else if (isFailed) statusClass = "status-red";
 
-                  {done && comp && (
-                    <div className="mod-score">
-                      <span className="score-pill">{comp.score}/30 pts</span>
-                    </div>
-                  )}
-
-                  <Link
-                    href={`/module/${mod.slug}`}
-                    className={`mod-btn ${done ? "mod-btn-done" : ""}`}
+                return (
+                  <div
+                    key={mod.slug}
+                    className={`module-card roadmap-card ${statusClass} ${i % 2 === 0 ? "left" : "right"}`}
+                    style={{ "--accent": mod.color, animationDelay: `${i * 60}ms` } as React.CSSProperties}
                   >
-                    {done ? "Repasar →" : "Comenzar →"}
-                  </Link>
-                </div>
-              );
-            })}
+                    <div className="roadmap-dot" />
+                    {isPassed && <div className="done-badge">{isPerfect ? "🏆 Perfecto" : "✓ Aprobado"}</div>}
+                    {isFailed && <div className="fail-badge">⚠ Repasar</div>}
+                    
+                    <div className="mod-icon">{mod.icon}</div>
+                    <div className="mod-number">Módulo {i + 1}</div>
+                    <h3 className="mod-title">{mod.title}</h3>
+                    <p className="mod-desc">{mod.description}</p>
+
+                    {score !== null && (
+                      <div className="mod-score">
+                        <span className={`score-pill ${statusClass}`}>{score}/30 pts</span>
+                      </div>
+                    )}
+
+                    <Link
+                      href={`/module/${mod.slug}`}
+                      className={`mod-btn ${statusClass}`}
+                    >
+                      {isPassed ? "Repasar →" : "Comenzar →"}
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </section>
       </main>
@@ -186,7 +209,7 @@ export default function DashboardPage() {
         }
 
         .nav-brand { display: flex; align-items: center; gap: 14px; }
-        .nav-icon { font-size: 28px; }
+        .nav-logo-img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 0 8px rgba(245,158,11,0.2)); }
         .nav-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #f0ede6; }
         .nav-sub { font-size: 11px; color: #555; letter-spacing: 0.5px; }
 
@@ -293,14 +316,30 @@ export default function DashboardPage() {
 
         .module-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
         .module-card:hover::before { transform: scaleX(1); }
-        .module-card.done { border-color: rgba(16,185,129,0.25); }
-        .module-card.done::before { transform: scaleX(1); background: #10b981; }
+
+        /* STATUS COLORS */
+        .module-card.status-red { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.03); }
+        .module-card.status-red::before { transform: scaleX(1); background: #ef4444; }
+        
+        .module-card.status-yellow { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.03); }
+        .module-card.status-yellow::before { transform: scaleX(1); background: #f59e0b; }
+
+        .module-card.status-green { border-color: rgba(16,185,129,0.4); background: rgba(16,185,129,0.03); }
+        .module-card.status-green::before { transform: scaleX(1); background: #10b981; }
 
         .done-badge {
           position: absolute; top: 16px; right: 16px;
           background: rgba(16,185,129,0.15); color: #10b981;
           font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
           border: 1px solid rgba(16,185,129,0.3);
+        }
+        .status-yellow .done-badge { background: rgba(245,158,11,0.15); color: #f59e0b; border-color: rgba(245,158,11,0.3); }
+
+        .fail-badge {
+          position: absolute; top: 16px; right: 16px;
+          background: rgba(239,68,68,0.15); color: #f87171;
+          font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+          border: 1px solid rgba(239,68,68,0.3);
         }
 
         .mod-icon { font-size: 36px; margin-bottom: 12px; }
@@ -310,17 +349,20 @@ export default function DashboardPage() {
 
         .mod-score { margin-bottom: 16px; }
         .score-pill {
-          background: rgba(16,185,129,0.1); color: #10b981;
+          background: rgba(255,255,255,0.05); color: #888;
           font-size: 12px; font-weight: 700;
           padding: 4px 12px; border-radius: 20px;
-          border: 1px solid rgba(16,185,129,0.3);
+          border: 1px solid rgba(255,255,255,0.1);
         }
+        .score-pill.status-red { background: rgba(239,68,68,0.1); color: #f87171; border-color: rgba(239,68,68,0.3); }
+        .score-pill.status-yellow { background: rgba(245,158,11,0.1); color: #f59e0b; border-color: rgba(245,158,11,0.3); }
+        .score-pill.status-green { background: rgba(16,185,129,0.1); color: #10b981; border-color: rgba(16,185,129,0.3); }
 
         .mod-btn {
           display: block;
-          background: rgba(245,158,11,0.12);
-          border: 1px solid rgba(245,158,11,0.3);
-          color: #f59e0b;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          color: #888;
           font-family: 'DM Sans', sans-serif;
           font-size: 14px; font-weight: 700;
           padding: 12px 20px; border-radius: 10px;
@@ -328,9 +370,42 @@ export default function DashboardPage() {
           transition: all 0.2s;
         }
 
-        .mod-btn:hover { background: rgba(245,158,11,0.2); transform: translateX(3px); }
-        .mod-btn-done { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #10b981; }
-        .mod-btn-done:hover { background: rgba(16,185,129,0.16); }
+        .mod-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(3px); }
+        .mod-btn.status-red { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #f87171; }
+        .mod-btn.status-yellow { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #f59e0b; }
+        .mod-btn.status-green { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #10b981; }
+
+        /* ROADMAP STYLES */
+        .roadmap-container { position: relative; padding: 40px 0; }
+        .roadmap-line {
+          position: absolute; left: 50%; top: 0; bottom: 0;
+          width: 2px; background: rgba(245,158,11,0.1);
+          border-left: 2px dashed rgba(245,158,11,0.2);
+          transform: translateX(-50%); z-index: 0;
+        }
+        .roadmap-grid { display: flex; flex-direction: column; gap: 60px; align-items: center; max-width: 800px; margin: 0 auto; }
+        .roadmap-card { width: 100%; max-width: 400px; position: relative; z-index: 1; }
+        .roadmap-card.left { align-self: flex-start; margin-right: 50%; }
+        .roadmap-card.right { align-self: flex-end; margin-left: 50%; }
+
+        .roadmap-dot {
+          position: absolute; top: 50%; width: 16px; height: 16px;
+          background: #05080f; border: 3px solid rgba(245,158,11,0.5);
+          border-radius: 50%; z-index: 2; transform: translateY(-50%);
+        }
+        .roadmap-card.left .roadmap-dot { right: -58px; }
+        .roadmap-card.right .roadmap-dot { left: -58px; }
+        
+        .status-green .roadmap-dot { border-color: #10b981; background: #10b981; box-shadow: 0 0 10px #10b981; }
+        .status-yellow .roadmap-dot { border-color: #f59e0b; background: #f59e0b; }
+        .status-red .roadmap-dot { border-color: #ef4444; }
+
+        @media (max-width: 900px) {
+          .roadmap-line { left: 20px; }
+          .roadmap-grid { align-items: flex-start; padding-left: 60px; }
+          .roadmap-card.left, .roadmap-card.right { margin: 0; max-width: 100%; }
+          .roadmap-card .roadmap-dot { left: -52px !important; right: auto !important; }
+        }
 
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(20px); }

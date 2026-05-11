@@ -2,6 +2,7 @@ export interface Question {
   question: string;
   options: string[];
   correct: number;
+  explanation: string;
 }
 
 export interface Module {
@@ -50,6 +51,7 @@ Actitud que incluye una mente cuestionadora, alerta ante condiciones que pueden 
         question: "¿Cuál principio fundamental obliga al auditor a mantener sus conocimientos actualizados?",
         options: ["Integridad", "Competencia Profesional y Debido Cuidado", "Confidencialidad"],
         correct: 1,
+        explanation: "La Competencia Profesional exige que el auditor mantenga su aptitud profesional mediante el aprendizaje continuo y la actualización en normas técnicas.",
       },
       {
         question: "La independencia mental implica que el auditor:",
@@ -59,6 +61,7 @@ Actitud que incluye una mente cuestionadora, alerta ante condiciones que pueden 
           "Solo trabaja con información pública",
         ],
         correct: 1,
+        explanation: "La independencia mental permite al auditor actuar con integridad y objetividad, evitando presiones que sesguen su opinión profesional.",
       },
       {
         question: "El escepticismo profesional en auditoría significa:",
@@ -68,6 +71,7 @@ Actitud que incluye una mente cuestionadora, alerta ante condiciones que pueden 
           "Mantener una mente cuestionadora y evaluar críticamente la evidencia",
         ],
         correct: 2,
+        explanation: "El escepticismo no es desconfianza ciega, sino una actitud de alerta ante posibles errores o fraudes, evaluando siempre la evidencia con rigor.",
       },
     ],
   },
@@ -123,6 +127,7 @@ CARACTERÍSTICAS CUALITATIVAS
         question: "¿Cuántos estados financieros forman un conjunto completo según la NIC 1?",
         options: ["3 estados", "5 estados", "7 estados"],
         correct: 1,
+        explanation: "Según la NIC 1, el conjunto completo incluye: Situación Financiera, Resultados, Cambios en Patrimonio, Flujos de Efectivo y Notas.",
       },
       {
         question: "El Estado de Flujos de Efectivo se clasifica en:",
@@ -132,11 +137,13 @@ CARACTERÍSTICAS CUALITATIVAS
           "Activos, pasivos y patrimonio",
         ],
         correct: 1,
+        explanation: "La NIC 7 establece que los flujos deben agruparse en actividades de operación (giro normal), inversión (activos fijos) y financiación (capital y deuda).",
       },
       {
         question: "¿Qué característica cualitativa implica que la información influye en decisiones económicas?",
         options: ["Comprensibilidad", "Relevancia", "Verificabilidad"],
         correct: 1,
+        explanation: "La relevancia es fundamental: la información contable debe ser útil para predecir o confirmar resultados y así influir en las decisiones de los usuarios.",
       },
     ],
   },
@@ -198,6 +205,7 @@ Principio del Devengado: Los ingresos y gastos se reconocen cuando se producen, 
           "Cualquier derecho de cobro a favor de la empresa",
         ],
         correct: 1,
+        explanation: "La clave de un activo no es solo la propiedad, sino el CONTROL y el potencial de generar beneficios económicos futuros.",
       },
       {
         question: "La fórmula del Patrimonio es:",
@@ -207,11 +215,13 @@ Principio del Devengado: Los ingresos y gastos se reconocen cuando se producen, 
           "Ingresos – Gastos",
         ],
         correct: 1,
+        explanation: "El Patrimonio representa la parte residual de los activos una vez deducidas todas las obligaciones (Pasivos) de la entidad.",
       },
       {
         question: "¿Qué principio establece que los ingresos y gastos se reconocen cuando se producen, independientemente del cobro?",
         options: ["Principio de Prudencia", "Principio del Devengado", "Principio de Negocio en Marcha"],
         correct: 1,
+        explanation: "El devengo asegura que los estados financieros reflejen las transacciones en el período correcto, sin importar cuándo se mueva el efectivo.",
       },
     ],
   },
@@ -275,6 +285,7 @@ CONCLUSIÓN Y EFECTOS EN EL INFORME
         question: "¿Qué NIA regula las responsabilidades del auditor respecto al Negocio en Marcha?",
         options: ["NIA 315", "NIA 570", "NIA 700"],
         correct: 1,
+        explanation: "La NIA 570 es la norma específica que guía al auditor para evaluar si la empresa puede continuar operando en el futuro previsible.",
       },
       {
         question: "Si existe una incertidumbre material sobre el negocio en marcha pero la revelación es adecuada, el auditor emite:",
@@ -284,6 +295,7 @@ CONCLUSIÓN Y EFECTOS EN EL INFORME
           "Abstención de opinión",
         ],
         correct: 1,
+        explanation: "Si la empresa explica bien sus problemas financieros, el auditor no da salvedad, pero añade un Párrafo de Énfasis para advertir al lector.",
       },
       {
         question: "¿Cuál de los siguientes es un indicador financiero de riesgo para la continuidad?",
@@ -293,6 +305,7 @@ CONCLUSIÓN Y EFECTOS EN EL INFORME
           "Incorporación de nuevos empleados clave",
         ],
         correct: 1,
+        explanation: "Un patrimonio neto negativo indica que las deudas superan a los activos, lo que pone en grave riesgo la continuidad operativa de la empresa.",
       },
     ],
   },
@@ -354,6 +367,7 @@ Importe recuperable = Máximo(Valor razonable menos costos de venta, Valor en us
           "Que sea aprobada por la gerencia y el auditor",
         ],
         correct: 1,
+        explanation: "Para 'subir' una cifra a los estados financieros, debe ser probable que genere beneficios y debe poder medirse en dinero con fiabilidad.",
       },
       {
         question: "El Valor Razonable según NIIF 13 se define como:",
@@ -363,6 +377,7 @@ Importe recuperable = Máximo(Valor razonable menos costos de venta, Valor en us
           "El valor en libros menos la depreciación acumulada",
         ],
         correct: 1,
+        explanation: "El Valor Razonable es un precio de mercado (precio de salida) entre partes interesadas que actúan de forma informada y voluntaria.",
       },
       {
         question: "Según la NIC 36, el Importe Recuperable de un activo es:",
@@ -372,6 +387,7 @@ Importe recuperable = Máximo(Valor razonable menos costos de venta, Valor en us
           "El máximo entre valor razonable menos costos de venta y valor en uso",
         ],
         correct: 2,
+        explanation: "La norma es optimista: el valor recuperable es lo máximo que podrías obtener ya sea vendiéndolo o usándolo.",
       },
     ],
   },
@@ -510,6 +526,7 @@ El IGCPA estableció la adopción de NIIF completas obligatoria para entidades d
         question: "¿Qué organismo emite las Normas Internacionales de Auditoría (NIAs)?",
         options: ["IASB", "IAASB", "IGCPA"],
         correct: 1,
+        explanation: "Mientras que el IASB emite normas de contabilidad (NIIF), el IAASB es el encargado de las normas de auditoría a nivel mundial.",
       },
       {
         question: "Según la NIC 2, ¿qué métodos de valoración de inventarios están permitidos?",
@@ -519,11 +536,13 @@ El IGCPA estableció la adopción de NIIF completas obligatoria para entidades d
           "LIFO y Costo Promedio Ponderado",
         ],
         correct: 1,
+        explanation: "La NIC 2 prohíbe el método LIFO (Últimas entradas, primeras salidas) por no reflejar adecuadamente el flujo físico y valor de los inventarios.",
       },
       {
         question: "¿Qué NIA regula la identificación y valoración de riesgos de incorrección material?",
         options: ["NIA 200", "NIA 315", "NIA 500"],
         correct: 1,
+        explanation: "La NIA 315 es fundamental para la planificación, pues obliga al auditor a entender la entidad y su entorno para detectar riesgos de error o fraude.",
       },
     ],
   },

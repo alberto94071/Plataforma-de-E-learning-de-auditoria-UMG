@@ -34,7 +34,10 @@ export default function ModulePage() {
 
       {/* TOP BAR */}
       <div className="top-bar">
-        <Link href="/dashboard" className="back-link">← Volver al Dashboard</Link>
+        <div className="nav-brand">
+          <img src="/logo-umg.png" alt="UMG" className="nav-logo-mini" />
+          <Link href="/dashboard" className="back-link">← Volver al Dashboard</Link>
+        </div>
         <div className="progress-pill">Módulo {modIndex + 1} de {MODULES.length}</div>
       </div>
 
@@ -128,6 +131,8 @@ export default function ModulePage() {
           backdrop-filter: blur(20px);
           border-bottom: 1px solid rgba(255,255,255,0.06);
         }
+        .nav-brand { display: flex; align-items: center; gap: 12px; }
+        .nav-logo-mini { width: 28px; height: 28px; object-fit: contain; }
 
         .back-link {
           color: #666; font-size: 14px; text-decoration: none; font-weight: 500;

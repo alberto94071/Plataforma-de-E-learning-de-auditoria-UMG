@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Script from "next/script";
 import { getModuleBySlug, MODULES, MIN_CORRECT_TO_PASS, POINTS_PER_CORRECT } from "@/lib/content";
 
 type Phase = "quiz" | "result";
@@ -24,6 +25,20 @@ export default function QuizPage() {
   const [alreadyCompleted, setAlreadyCompleted] = useState(false);
   const [totalScore, setTotalScore] = useState(0);
   const [hasDiploma, setHasDiploma] = useState(false);
+
+  // Sound effects
+  const playSound = (url: string) => {
+    const audio = new Audio(url);
+    audio.volume = 0.4;
+    audio.play().catch(() => {});
+  };
+
+  const SOUNDS = {
+    click: "https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3",
+    correct: "https://assets.mixkit.co/active_storage/sfx/600/600-preview.mp3",
+    wrong: "https://assets.mixkit.co/active_storage/sfx/251/251-preview.mp3",
+    success: "https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3",
+  };
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/");
@@ -57,6 +72,24 @@ export default function QuizPage() {
     if (data.alreadyCompleted) setAlreadyCompleted(true);
     setTotalScore(data.totalScore || 0);
     setHasDiploma(data.hasDiploma || false);
+    
+    // Interactions
+    if (correct === mod!.questions.length) {
+      playSound(SOUNDS.success);
+      if (typeof (window as any).confetti === "function") {
+        (window as any).confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#f59e0b', '#ffffff', '#10b981']
+        });
+      }
+    } else if (correct >= MIN_CORRECT_TO_PASS) {
+      playSound(SOUNDS.correct);
+    } else {
+      playSound(SOUNDS.wrong);
+    }
+
     setPhase("result");
   }
 
@@ -64,10 +97,14 @@ export default function QuizPage() {
 
   return (
     <div className="quiz-root">
+      <Script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" strategy="afterInteractive" />
       <div className="bg-grid" />
 
       <div className="top-bar">
-        <Link href={`/module/${slug}`} className="back-link">← Ver teoría</Link>
+        <div className="nav-brand">
+          <img src="/logo-umg.png" alt="UMG" className="nav-logo-mini" />
+          <Link href={`/module/${slug}`} className="back-link">← Ver teoría</Link>
+        </div>
         <div className="quiz-badge">{mod.icon} {mod.title}</div>
       </div>
 
@@ -91,6 +128,7 @@ export default function QuizPage() {
                         key={oi}
                         className={`option-btn ${selected[qi] === oi ? "selected" : ""}`}
                         onClick={() => {
+                          playSound(SOUNDS.click);
                           const next = [...selected];
                           next[qi] = oi;
                           setSelected(next);
@@ -156,6 +194,9 @@ export default function QuizPage() {
                         )}
                         <span className="review-ans correct">✓ Respuesta: {q.options[q.correct]}</span>
                       </div>
+                      <div className="review-explanation">
+                        <strong>💡 Explicación:</strong> {q.explanation}
+                      </div>
                     </div>
                   );
                 })}
@@ -198,6 +239,8 @@ export default function QuizPage() {
         .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(245,158,11,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.025) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; z-index: 0; }
 
         .top-bar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 64px; background: rgba(5,8,15,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .nav-brand { display: flex; align-items: center; gap: 12px; }
+        .nav-logo-mini { width: 28px; height: 28px; object-fit: contain; }
         .back-link { color: #666; font-size: 14px; text-decoration: none; font-weight: 500; transition: color 0.2s; }
         .back-link:hover { color: #f59e0b; }
         .quiz-badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #888; font-size: 13px; padding: 6px 14px; border-radius: 20px; }
@@ -281,6 +324,7 @@ export default function QuizPage() {
         .review-ans { font-size: 13px; }
         .review-ans.wrong { color: #f87171; }
         .review-ans.correct { color: #10b981; }
+        .review-explanation { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 13px; color: #888; line-height: 1.5; }
 
         .diploma-alert { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 12px; padding: 14px 20px; margin-bottom: 24px; font-size: 14px; font-weight: 600; color: #f59e0b; flex-wrap: wrap; }
         .diploma-alert-btn { background: #f59e0b; color: #000; text-decoration: none; font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 8px; }

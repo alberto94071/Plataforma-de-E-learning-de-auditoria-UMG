@@ -66,7 +66,14 @@ export default function LandingPage() {
         {/* LEFT PANEL */}
         <div className="left-panel">
           <div className="left-inner">
-            <div className="brand-badge">UMG · Auditoría</div>
+            <div className="brand-header">
+              <img 
+                src="/logo-umg.png" 
+                alt="UMG Logo" 
+                className="landing-logo-img"
+              />
+              <div className="brand-badge">UMG · Auditoría</div>
+            </div>
             <h1 className="hero-title">
               Domina la<br />
               <span className="hero-gold">Auditoría</span><br />
@@ -236,6 +243,8 @@ export default function LandingPage() {
         }
 
         .left-inner { max-width: 560px; }
+        .brand-header { display: flex; align-items: center; gap: 16px; margin-bottom: 36px; }
+        .landing-logo-img { width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(245,158,11,0.3)); }
 
         .brand-badge {
           display: inline-block;
@@ -248,7 +257,6 @@ export default function LandingPage() {
           text-transform: uppercase;
           padding: 6px 14px;
           border-radius: 20px;
-          margin-bottom: 36px;
         }
 
         .hero-title {
