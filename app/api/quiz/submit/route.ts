@@ -32,9 +32,9 @@ export async function POST(req: Request) {
     `;
 
     // Calculate total score across all completed modules
-    const completions = await sql`
+    const completions = (await sql`
       SELECT module_slug, score FROM module_completions WHERE user_id = ${userId}
-    `;
+    `) as Array<{ module_slug: string; score: number }>;
 
     const totalScore = completions.reduce(
       (sum: number, row: { score: number }) => sum + row.score,
@@ -76,9 +76,9 @@ export async function GET() {
 
   const userId = Number(session.user.id);
 
-  const completions = await sql`
+  const completions = (await sql`
     SELECT module_slug, score FROM module_completions WHERE user_id = ${userId}
-  `;
+  `) as Array<{ module_slug: string; score: number }>;
 
   const totalScore = completions.reduce(
     (sum: number, row: { score: number }) => sum + row.score,
