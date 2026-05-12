@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://plataforma-de-e-learning-de-auditor.vercel.app/sitemap.xml
