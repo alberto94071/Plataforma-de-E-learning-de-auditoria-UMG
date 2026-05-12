@@ -70,10 +70,11 @@ export default function AdminPage() {
 <head>
 <meta charset="utf-8">
 <title>Diploma - ${student.name}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:#f0f0f0; display:flex; justify-content:center; padding:40px; font-family:'DM Sans', sans-serif; }
+  body { background:#f0f0f0; display:flex; justify-content:center; padding:40px; font-family:'DM Sans', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .diploma {
     width:900px; min-height:620px;
     background:#fdfcf0;
@@ -132,9 +133,22 @@ export default function AdminPage() {
 
   .seal-img { width:85px; height:85px; object-fit:contain; filter:grayscale(0.2) contrast(1.1); }
 
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
   @media print {
-    body { background:white; padding:0; }
-    .diploma { box-shadow:none; border-color:#8a7a30 !important; -webkit-print-color-adjust: exact; }
+    body { background:white; padding:0; margin:0; }
+    .diploma { 
+      width: 297mm; 
+      height: 210mm;
+      border: 12px double #8a7a30 !important;
+      box-shadow: none; 
+      -webkit-print-color-adjust: exact; 
+      print-color-adjust: exact;
+      margin: 0 auto;
+    }
+    .corner { border-color: #8a7a30 !important; }
   }
 </style>
 </head>
