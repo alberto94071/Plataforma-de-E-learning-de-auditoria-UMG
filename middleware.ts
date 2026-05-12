@@ -6,7 +6,12 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const role = (req.auth?.user as { role?: string })?.role;
 
-  // Public routes
+  // 1. Allow all static files and public assets
+  if (pathname.includes(".") || pathname.startsWith("/logo-umg.png") || pathname.startsWith("/opengraph-image.png") || pathname.startsWith("/robots.txt")) {
+    return NextResponse.next();
+  }
+
+  // 2. Public routes
   if (pathname === "/" || pathname.startsWith("/api/auth") || pathname.startsWith("/api/register")) {
     return NextResponse.next();
   }
