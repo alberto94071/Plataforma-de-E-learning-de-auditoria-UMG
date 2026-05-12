@@ -46,18 +46,14 @@ export default function CertificatePage() {
     try {
       const html2canvas = (await import("html2canvas")).default;
       
-      // Force desktop width for capture even on mobile
-      const originalStyle = certRef.current.style.width;
-      certRef.current.style.width = "900px";
-      
       const canvas = await html2canvas(certRef.current, {
         scale: 3,
         backgroundColor: "#ffffff",
         useCORS: true,
         logging: false,
+        windowWidth: 1200, // Simular ancho de escritorio
+        windowHeight: 800,
       });
-      
-      certRef.current.style.width = originalStyle;
 
       if (type === "png") {
         const link = document.createElement("a");
