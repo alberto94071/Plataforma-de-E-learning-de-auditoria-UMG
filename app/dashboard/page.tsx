@@ -429,7 +429,7 @@ function LoadingScreen() {
   return (
     <div style={{ minHeight: "100vh", background: "#05080f", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: "40px", marginBottom: "16px" }}>⚖️</div>
+        <div style={{ fontSize: "40px", marginBottom: "16px" }}>🔍</div>
         <div style={{ color: "#555", fontFamily: "DM Sans, sans-serif", fontSize: "14px" }}>Cargando...</div>
       </div>
     </div>

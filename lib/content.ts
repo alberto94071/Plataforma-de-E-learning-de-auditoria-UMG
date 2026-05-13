@@ -19,7 +19,7 @@ export const MODULES: Module[] = [
   {
     slug: "principios-fundamentales",
     title: "Principios Fundamentales",
-    icon: "⚖️",
+    icon: "📋",
     color: "#f59e0b",
     description: "Bases éticas y técnicas que rigen la profesión contable y de auditoría.",
     content: `PRINCIPIOS FUNDAMENTALES DE AUDITORÍA

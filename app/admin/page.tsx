@@ -126,7 +126,8 @@ export default function AdminPage() {
   .sbox-val.grn { color:#2f855a; font-size:18px; }
 
   .footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:32px; position:relative; z-index:2; }
-  .sig { text-align:center; min-width:220px; }
+  .sig { text-align:center; min-width:220px; display:flex; flex-direction:column; align-items:center; }
+  .sig-img { height:65px; object-fit:contain; margin-bottom:-20px; position:relative; z-index:5; mix-blend-mode:multiply; }
   .sig-line { width:100%; height:1.5px; background:#2d3748; margin-bottom:8px; }
   .sig-name { font-family:'Playfair Display', serif; font-size:14px; font-weight:700; color:#1a365d; margin-bottom:2px; }
   .sig-inst { font-size:11px; color:#4a5568; font-style:italic; font-weight:600; }
@@ -160,7 +161,7 @@ export default function AdminPage() {
   <div class="orn"><div class="orn-line"></div><div class="orn-d">◆</div><div class="orn-line"></div></div>
 
   <div class="inst-name">Universidad Mariano Gálvez de Guatemala</div>
-  <div class="inst-fac">Facultad de Ciencias Económicas · Carrera de Auditoría</div>
+  <div class="inst-fac">Facultad de Ciencias Económicas · Licenciatura en contaduría pública y auditoría</div>
   
   <div class="deco"><span class="deco-star">✦</span><span class="deco-span"></span><span class="deco-star">✦</span></div>
   
@@ -183,7 +184,7 @@ export default function AdminPage() {
   <div class="deco"><span class="deco-star">✦</span><span class="deco-span"></span><span class="deco-star">✦</span></div>
 
   <div class="footer">
-    <div class="sig"><div class="sig-line"></div><div class="sig-name">Coordinador Académico</div><div class="sig-inst">Facultad de Ciencias Económicas</div></div>
+    <div class="sig"><img src="/firma.png" alt="Firma" class="sig-img"><div class="sig-line"></div><div class="sig-name">Presidenta del Quinto ciclo B</div><div class="sig-inst">Facultad de Ciencias Económicas</div></div>
     <div class="seal"><img src="/logo-umg.png" alt="Sello UMG" class="seal-img"></div>
     <div class="sig"><div class="sig-line"></div><div class="sig-name">Plataforma AuditPro</div><div class="sig-inst">${dateStr}</div></div>
   </div>

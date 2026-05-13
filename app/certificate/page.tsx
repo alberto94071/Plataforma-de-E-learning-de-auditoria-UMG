@@ -152,7 +152,7 @@ export default function CertificatePage() {
           {/* Logo + Institution */}
           <div className="diploma-institution">
             <div className="institution-name">Universidad Mariano Gálvez de Guatemala</div>
-            <div className="institution-faculty">Facultad de Ciencias Económicas · Carrera de Auditoría</div>
+            <div className="institution-faculty">Facultad de Ciencias Económicas · Licenciatura en contaduría pública y auditoría</div>
           </div>
 
           {/* Decorative divider */}
@@ -208,8 +208,9 @@ export default function CertificatePage() {
 
           <div className="diploma-footer">
             <div className="sig-block">
+              <img src="/firma.png" alt="Firma" className="sig-img" />
               <div className="sig-line" />
-              <div className="sig-name">Coordinador Académico</div>
+              <div className="sig-name">Presidenta del Quinto ciclo B</div>
               <div className="sig-inst">Facultad de Ciencias Económicas</div>
             </div>
             <div className="diploma-footer-seal">
@@ -350,7 +351,8 @@ export default function CertificatePage() {
 
         /* Footer */
         .diploma-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 32px; }
-        .sig-block { text-align: center; min-width: 220px; }
+        .sig-block { text-align: center; min-width: 220px; display: flex; flex-direction: column; align-items: center; }
+        .sig-img { height: 65px; object-fit: contain; margin-bottom: -20px; position: relative; z-index: 5; mix-blend-mode: multiply; }
         .sig-line { width: 100%; height: 1.5px; background: #2d3748; margin-bottom: 8px; }
         .sig-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: #1a365d; margin-bottom: 2px; }
         .sig-inst { font-size: 11px; color: #4a5568; font-style: italic; font-weight: 600; }
