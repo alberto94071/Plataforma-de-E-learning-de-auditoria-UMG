@@ -144,6 +144,7 @@ export default function AdminPage() {
       -webkit-print-color-adjust: exact; 
       print-color-adjust: exact;
       margin: 0 auto;
+      padding: 30px 50px; /* Reduced padding for print */
     }
     .corner { border-color: #8a7a30 !important; }
   }
@@ -179,13 +180,13 @@ export default function AdminPage() {
 
   <div class="deco"><span class="deco-star">✦</span><span class="deco-span"></span><span class="deco-star">✦</span></div>
 
-  <div class="footer">
+  <div class="footer" style="margin-top:20px">
     <div class="sig"><img src="/firma.png" alt="Firma" class="sig-img"><div class="sig-line"></div><div class="sig-name">Presidenta del Quinto ciclo B</div><div class="sig-inst">Facultad de Ciencias Económicas</div></div>
     <div class="seal"><img src="/logo-umg.png" alt="Sello UMG" class="seal-img"></div>
     <div class="sig"><div class="sig-line"></div><div class="sig-name">Plataforma AuditPro</div><div class="sig-inst">${dateStr}</div></div>
   </div>
 
-  <div class="orn" style="margin-top:24px"><div class="orn-line"></div><div class="orn-d">◆</div><div class="orn-line"></div></div>
+  <div class="orn" style="margin-top:12px"><div class="orn-line"></div><div class="orn-d">◆</div><div class="orn-line"></div></div>
 </div>
 <script>window.onload = function(){ window.print(); }<\/script>
 </body>
