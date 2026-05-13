@@ -127,7 +127,7 @@ export default function AdminPage() {
 
   .footer { display:flex; justify-content:space-between; align-items:flex-end; margin-top:32px; position:relative; z-index:2; }
   .sig { text-align:center; min-width:220px; display:flex; flex-direction:column; align-items:center; }
-  .sig-img { height:65px; object-fit:contain; margin-bottom:-20px; position:relative; z-index:5; mix-blend-mode:multiply; }
+  .sig-img { height: 65px; object-fit: contain; margin-bottom: -10px; position: relative; z-index: 5; mix-blend-mode: multiply; }
   .sig-line { width:100%; height:1.5px; background:#2d3748; margin-bottom:8px; }
   .sig-name { font-family:'Playfair Display', serif; font-size:14px; font-weight:700; color:#1a365d; margin-bottom:2px; }
   .sig-inst { font-size:11px; color:#4a5568; font-style:italic; font-weight:600; }
