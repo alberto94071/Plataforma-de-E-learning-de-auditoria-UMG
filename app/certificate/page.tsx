@@ -285,14 +285,7 @@ export default function CertificatePage() {
           color: #1a2a1a;
         }
 
-        /* Subtle texture overlay - removed external dependency to fix CORS crash */
-        .diploma::after {
-          content: '';
-          position: absolute; inset: 0;
-          background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 100%);
-          opacity: 0.4;
-          pointer-events: none;
-        }
+        /* Removed texture overlay to fix rendering crash */
 
         /* Corner decorations */
         .corner {
@@ -306,7 +299,7 @@ export default function CertificatePage() {
 
         /* Ornament line */
         .diploma-top-ornament { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-        .ornament-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #8a7a30, transparent); }
+        .ornament-line { flex: 1; height: 1px; background: #8a7a30; opacity: 0.5; }
         .ornament-diamond { color: #8a7a30; font-size: 12px; }
 
         /* Institution */
@@ -318,7 +311,7 @@ export default function CertificatePage() {
         /* Deco line */
         .deco-line { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
         .deco-star { color: #8a7a30; font-size: 10px; }
-        .deco-span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(138, 122, 48, 0.4), transparent); }
+        .deco-span { flex: 1; height: 1px; background: rgba(138, 122, 48, 0.3); }
 
         /* Main title */
         .diploma-otorga { font-family: 'Cormorant Garamond', serif; font-size: 13px; text-transform: uppercase; letter-spacing: 4px; color: #718096; margin-bottom: 6px; font-weight: 600; }

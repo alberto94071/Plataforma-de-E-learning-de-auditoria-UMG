@@ -84,11 +84,7 @@ export default function AdminPage() {
     color:#1a2a1a;
     overflow:hidden;
   }
-  .diploma::after {
-    content:''; position:absolute; inset:0;
-    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 100%);
-    opacity:0.4; pointer-events:none;
-  }
+  /* Texture removed to fix crash */
   .corner { position:absolute; width:60px; height:60px; border-color:#8a7a30; border-style:solid; z-index:2; }
   .tl { top:12px; left:12px; border-width:3px 0 0 3px; }
   .tr { top:12px; right:12px; border-width:3px 3px 0 0; }
@@ -96,7 +92,7 @@ export default function AdminPage() {
   .br { bottom:12px; right:12px; border-width:0 3px 3px 0; }
 
   .orn { display:flex; align-items:center; gap:12px; margin-bottom:24px; position:relative; z-index:2; }
-  .orn-line { flex:1; height:1px; background:linear-gradient(90deg, transparent, #8a7a30, transparent); }
+  .orn-line { flex:1; height:1px; background:#8a7a30; opacity:0.5; }
   .orn-d { color:#8a7a30; font-size:12px; }
 
   .inst-name { font-family:'Playfair Display', serif; font-size:20px; font-weight:700; color:#1a365d; letter-spacing:0.5px; margin-bottom:4px; position:relative; z-index:2; }
@@ -104,7 +100,7 @@ export default function AdminPage() {
 
   .deco { display:flex; align-items:center; gap:10px; margin:16px 0; position:relative; z-index:2; }
   .deco-star { color:#8a7a30; font-size:10px; }
-  .deco-span { flex:1; height:1px; background:linear-gradient(90deg, transparent, rgba(138, 122, 48, 0.4), transparent); }
+  .deco-span { flex:1; height:1px; background:rgba(138, 122, 48, 0.3); }
 
   .otorga { font-family:'Cormorant Garamond', serif; font-size:13px; text-transform:uppercase; letter-spacing:4px; color:#718096; margin-bottom:6px; font-weight:600; position:relative; z-index:2; }
   .main-title { font-family:'Playfair Display', serif; font-size:42px; font-weight:900; color:#2c5282; margin-bottom:14px; position:relative; z-index:2; }
