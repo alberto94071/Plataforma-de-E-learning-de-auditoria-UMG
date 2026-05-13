@@ -86,7 +86,7 @@ export default function AdminPage() {
   }
   .diploma::after {
     content:''; position:absolute; inset:0;
-    background: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 100%);
     opacity:0.4; pointer-events:none;
   }
   .corner { position:absolute; width:60px; height:60px; border-color:#8a7a30; border-style:solid; z-index:2; }

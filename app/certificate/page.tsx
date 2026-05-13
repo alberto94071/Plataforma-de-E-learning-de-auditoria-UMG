@@ -285,11 +285,11 @@ export default function CertificatePage() {
           color: #1a2a1a;
         }
 
-        /* Subtle texture overlay */
+        /* Subtle texture overlay - removed external dependency to fix CORS crash */
         .diploma::after {
           content: '';
           position: absolute; inset: 0;
-          background: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+          background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, transparent 100%);
           opacity: 0.4;
           pointer-events: none;
         }
